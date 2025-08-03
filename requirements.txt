@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+scipy
+jupyter
+opencv-python
+scikit-learn
+redis
+streamlit_webrtc
+streamlit
