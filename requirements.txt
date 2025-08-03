@@ -9,3 +9,4 @@ redis
 streamlit_webrtc
 streamlit
 insightface
+onnxruntime
