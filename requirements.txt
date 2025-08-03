@@ -8,3 +8,4 @@ scikit-learn
 redis
 streamlit_webrtc
 streamlit
+insightface
