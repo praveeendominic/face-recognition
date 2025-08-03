@@ -1,4 +1,4 @@
-from Home import st
+import streamlit as st
 
 from Home import face_rec
 
