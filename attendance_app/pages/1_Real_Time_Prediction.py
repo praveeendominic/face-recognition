@@ -1,11 +1,12 @@
+
 import streamlit as st
 
 from Home import face_rec
 
 st.set_page_config(page_title='THMC Face recognition System', layout='centered')
-st.subheader('Real-time Face recognition')
+# st.subheader('Real-time Face recognition')
 
-obj = face_rec.RealTimePred()
+
 
 # Retrieve data from DB
 with st.spinner("Retrieving data from Redis db ..."):
@@ -18,9 +19,12 @@ import av
 import time
 
 
+waitTime = 30 # seconds
+setTime = time.time() # set initial time
+obj = face_rec.RealTimePred()
 
 def video_frame_callback(frame):
-    # global setTime
+    global setTime
     
     img = frame.to_ndarray(format="bgr24") # 3 dimension numpy array
     # operation that you can perform on the array
@@ -32,18 +36,19 @@ def video_frame_callback(frame):
                                             thresh=0.5)
         st.text("Real-time face recognition in progress...")
         print("Real-time face recognition in progress...")
+        # obj.saveLogs_redis()
 
     except Exception as e:
         st.error(f"Error during face prediction: {e}")
         print.error(f"Error during face prediction: {e}")
               
-    # 
-    # timenow = time.time()
-    # difftime = timenow - setTime
-    # if difftime >= waitTime:
-    #     realtimepred.saveLogs_redis()
-    #     setTime = time.time() # reset time        
-    #     print('Save Data to redis database')
+    
+    timenow = time.time()
+    difftime = timenow - setTime
+    if difftime >= waitTime or difftime < waitTime:
+        obj.saveLogs_redis()
+        setTime = time.time() # reset time        
+        print('Save Data to redis database')
 
     return av.VideoFrame.from_ndarray(pred_img, format="bgr24")
 

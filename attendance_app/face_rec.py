@@ -10,6 +10,9 @@ from sklearn.metrics import pairwise
 
 import time
 from datetime import datetime
+from datetime import date
+
+
 
 import os
 
@@ -111,6 +114,7 @@ class RealTimePred:
                             name_role=['Name','Role'],thresh=0.5):
         # step-1: find the time
         current_time = str(datetime.now())
+        today = date.today()
         
         # step-1: take the test image and apply to insight face
         results = faceapp.get(test_image)
@@ -137,10 +141,10 @@ class RealTimePred:
             cv2.putText(test_copy,current_time,(x1,y2+10),cv2.FONT_HERSHEY_DUPLEX,0.7,color,2)
             
             # save info in logs dict
-            # self.logs['name'].append(person_name)
-            # self.logs['role'].append(person_role)
-            # self.logs['current_time'].append(current_time)
-            
+            self.logs['name'].append(person_name)
+            self.logs['role'].append(person_role)
+            # self.logs['current_date'].append(today)
+            self.logs['current_time'].append(current_time)
 
         return test_copy
 
